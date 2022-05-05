@@ -4,6 +4,7 @@ import { tokenUtils } from '../../utils/authentication';
 import {
   fetchLogin,
   fetchGetUser,
+  fetchLogout,
 } from "./loginAPI";
 
 const initialState = {
@@ -27,11 +28,15 @@ export const loginSlice = createSlice({
         state.isAutentifiqued = 1;
       }
     },
+    setLogout: (state, action) => {
+      state.isAutentifiqued = 0;
+      tokenUtils.clearAuthenticationToken();
+    },
   },
 
 });
 
-export const { setlogin } = loginSlice.actions;
+export const { setlogin, setLogout } = loginSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
@@ -55,4 +60,9 @@ export const login = (email, password) => async (dispatch) => {
 export const getUser = (id) => async (dispatch) => {
   const response = await fetchGetUser(id);
   dispatch(setlogin(response.data.data));
+}
+
+export const logout = () => async (dispatch) => {
+  await fetchLogout();
+  dispatch(setLogout());
 }

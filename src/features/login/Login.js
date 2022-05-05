@@ -47,6 +47,7 @@ const Login = () => {
 
 
     useEffect(() => {
+        alert(session.isAutentifiqued);
         if (session.isAutentifiqued) navigate('/');
     }, [session])
 

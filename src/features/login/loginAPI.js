@@ -27,3 +27,17 @@ export const fetchGetUser = async (id) => {
     tokenUtils.clearAuthenticationToken();
   }
 }
+
+export const fetchLogout = async () => {
+  const data = await tokenUtils.getAuthenticationToken();
+  let token = null;
+  if (data) {
+    token = data.split(':')[1];
+  }
+
+  return await api.post(`http://localhost/restapitodolist/public/api/logout`, [], {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+}
