@@ -75,31 +75,12 @@ export default function Register() {
                             fullWidth
                             id="firstname"
                             label="Nombre"
-                            name="firstname"
+                            name="name"
                             autoComplete="off"
                             autoFocus
                             onChange={handleChange}
                         />
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="lastname"
-                            label="Apellidos"
-                            name="lastname"
-                            autoComplete="off"
-                            onChange={handleChange}
-                        />
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="nic"
-                            label="Carnet de identidad"
-                            name="nic"
-                            autoComplete="off"
-                            onChange={handleChange}
-                        />
+
                         <TextField
                             margin="normal"
                             required
