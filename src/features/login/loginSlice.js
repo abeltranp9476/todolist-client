@@ -19,11 +19,11 @@ export const loginSlice = createSlice({
   reducers: {
     setlogin: (state, action) => {
       state.user = action.payload;
-      if (action.payload.user?.firstname) {
-        state.firstname = action.payload.user.firstname;
+      if (action.payload.user?.name) {
+        state.firstname = action.payload.user.name;
         state.isAutentifiqued = 1;
       } else {
-        state.firstname = action.payload.firstname;
+        state.firstname = action.payload.name;
         state.isAutentifiqued = 1;
       }
     },

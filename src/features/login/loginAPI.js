@@ -18,7 +18,7 @@ export const fetchGetUser = async (id) => {
   }
 
   try {
-    return await api.get(`http://localhost/mercazona-core/public/api/users/${id}`, {
+    return await api.get(`http://localhost/restapitodolist/public/api/user/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
