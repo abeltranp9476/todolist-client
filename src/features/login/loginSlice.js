@@ -59,7 +59,9 @@ export const login = (email, password) => async (dispatch) => {
 
 export const getUser = (id) => async (dispatch) => {
   const response = await fetchGetUser(id);
-  dispatch(setlogin(response.data.data));
+  if (response.data.data) {
+    dispatch(setlogin(response.data.data));
+  }
 }
 
 export const logout = () => async (dispatch) => {

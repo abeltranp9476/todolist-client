@@ -17,11 +17,12 @@ function App() {
   const navigate = useNavigate();
   const session = useSelector(selectLogin);
 
+
   useEffect(() => {
     const userId = tokenUtils.getUserId();
     dispatch(getUser(userId));
     if (!userId) navigate('/login');
-  }, [])
+  }, [session.isAutentifiqued])
 
 
   return (

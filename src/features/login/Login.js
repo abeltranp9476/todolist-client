@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, Link, Navigate } from 'react-router-dom';
-
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -21,6 +20,7 @@ import {
 
 
 const theme = createTheme();
+
 
 const Login = () => {
     const session = useSelector(selectLogin);
@@ -45,11 +45,10 @@ const Login = () => {
         dispatch(login(email, password));
     }
 
-
     useEffect(() => {
-        alert(session.isAutentifiqued);
-        if (session.isAutentifiqued) navigate('/');
-    }, [session])
+        if (session.isAutentifiqued)
+            navigate('/');
+    }, [session.isAutentifiqued])
 
 
     return (
