@@ -11,7 +11,7 @@ function Home() {
 
     return (
         <>
-            Welcome
+            <h1>Bienvenido</h1>
         </>
     )
 }
