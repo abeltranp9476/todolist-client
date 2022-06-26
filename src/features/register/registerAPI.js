@@ -7,7 +7,7 @@ export const fetchRegister = async (data) => {
   form.append('password', data.values.password);
   form.append('password_confirmation', data.values.rePassword);
 
-  return await api.post('http://localhost/todo-list-api/public/api/register', form, {
+  return await api.post('register', form, {
     headers: { 'Content-Type': 'multipart/form-data' },
   });
 }
