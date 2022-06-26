@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-const MERCAZONA_API_BASE_URL = process.env.REACT_APP_API_URL;
-const MERCAZONA_API_TIMEOUT = 120000;
+const API_BASE_URL = 'http://localhost/todo-list-api/public/api';
+const API_TIMEOUT = 120000;
 
 export const api = axios.create({
-    timeout: MERCAZONA_API_TIMEOUT,
-    baseURL: MERCAZONA_API_BASE_URL,
+    timeout: API_TIMEOUT,
+    baseURL: API_BASE_URL,
     headers: {
         Accept: 'application/json'
     },
