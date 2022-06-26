@@ -10,6 +10,7 @@ import Home from './features/home/Home';
 import Register from './features/register/Register';
 import { selectLogin } from './features/login/loginSlice';
 import Notification from './features/notification/Notification';
+import Changepassword from './features/changepassword/Changepassword';
 
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/profile" element={<Changepassword />} />
       </Routes>
     </>
   );
