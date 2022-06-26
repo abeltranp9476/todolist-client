@@ -5,7 +5,6 @@ import { toast } from 'react-toastify';
 import { selectNotification } from './notificationSlice';
 
 function Notification() {
-
     const notifications = useSelector(selectNotification);
     const type = notifications.notify.type;
     const message = notifications.notify.message;
@@ -37,7 +36,6 @@ function Notification() {
             }
         }
     }, [notifications])
-
 
 
     return null
