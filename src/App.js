@@ -9,6 +9,7 @@ import { getUser } from './features/login/loginSlice';
 import Home from './features/home/Home';
 import Register from './features/register/Register';
 import { selectLogin } from './features/login/loginSlice';
+import Notification from './features/notification/Notification';
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
   return (
     <>
       <Navbar />
+      <Notification />
       <Routes>
         <Route path="*" element={<div>404</div>} />
         <Route path="/" element={<Home />} />

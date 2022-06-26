@@ -7,6 +7,8 @@ import {
   fetchLogout,
 } from "./loginAPI";
 
+import { notification } from "../notification/notificationSlice";
+
 const initialState = {
   user: {},
   isAutentifiqued: 0,
@@ -48,19 +50,33 @@ export default loginSlice.reducer;
 
 
 export const login = (email, password) => async (dispatch) => {
-  const response = await fetchLogin(email, password);
-  let accessToken = response.data.data.token;
-  let userId = response.data.data.user.id;
-  if (accessToken) {
-    tokenUtils.setAuthenticationToken(userId + ':' + accessToken);
+  try {
+    const response = await fetchLogin(email, password);
+    let accessToken = response?.data.data.token;
+    let userId = response?.data.data.user.id;
+    if (accessToken) {
+      tokenUtils.setAuthenticationToken(userId + ':' + accessToken);
+    }
+    dispatch(setlogin(response?.data.data));
+  } catch (e) {
+    dispatch(notification({
+      type: 'error',
+      message: 'Atienda por favor! Algo puso mal...'
+    }));
   }
-  dispatch(setlogin(response.data.data));
 }
 
 export const getUser = (id) => async (dispatch) => {
-  const response = await fetchGetUser(id);
-  if (response.data.data) {
-    dispatch(setlogin(response.data.data));
+  try {
+    const response = await fetchGetUser(id);
+    if (response?.data.data) {
+      dispatch(setlogin(response.data.data));
+    }
+  } catch (e) {
+    dispatch(notification({
+      type: 'error',
+      message: 'Se ha denegado el acceso... Autentifíquese.'
+    }));
   }
 }
 
