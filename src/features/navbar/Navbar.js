@@ -96,6 +96,11 @@ const Navbar = () => {
         navigate('/login');
     }
 
+    const handleMiCuenta = () => {
+        handleMenuClose();
+        navigate('/profile');
+    }
+
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
         <Menu
@@ -113,7 +118,7 @@ const Navbar = () => {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem onClick={handleMenuClose}>Mi cuenta</MenuItem>
+            <MenuItem onClick={handleMiCuenta}>Mi cuenta</MenuItem>
             <MenuItem onClick={handleLogout}>Salir</MenuItem>
         </Menu>
     );

@@ -7,7 +7,7 @@ export const fetchLogin = async (email, password) => {
   form.append('password', password);
   form.append('device', 'react');
 
-  return await api.post('http://localhost/restapitodolist/public/api/login', form);
+  return await api.post('http://localhost/todo-list-api/public/api/login', form);
 }
 
 export const fetchGetUser = async (id) => {
@@ -18,7 +18,7 @@ export const fetchGetUser = async (id) => {
   }
 
   try {
-    return await api.get(`http://localhost/restapitodolist/public/api/user/${id}`, {
+    return await api.get(`http://localhost/todo-list-api/public/api/user/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -35,7 +35,7 @@ export const fetchLogout = async () => {
     token = data.split(':')[1];
   }
 
-  return await api.post(`http://localhost/restapitodolist/public/api/logout`, [], {
+  return await api.post(`http://localhost/todo-list-api/public/api/logout`, [], {
     headers: {
       Authorization: `Bearer ${token}`
     }
