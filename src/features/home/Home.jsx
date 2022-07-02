@@ -14,15 +14,7 @@ function Home() {
     }
 
     useEffect(() => {
-        let mounted = true;
-
-        if (mounted) {
-            loadInitData()
-        }
-
-        return () => {
-            mounted = false;
-        };
+        loadInitData()
     }, [])
 
     return (
