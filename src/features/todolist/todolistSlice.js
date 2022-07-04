@@ -1,5 +1,5 @@
-import { fetchtodos } from './todolistAPI'
+import { fetchTodos } from './todolistAPI'
 
 export const getTodo = async () => {
-    return await fetchtodos();
+    return await fetchTodos();
 }
