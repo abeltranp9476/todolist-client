@@ -15,11 +15,11 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import Link from '@mui/material/Link';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { selectLogin, logout } from '../login/loginSlice';
-
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -173,9 +173,12 @@ const Navbar = () => {
                         variant="h6"
                         noWrap
                         component="div"
+                        color="inherit"
                         sx={{ display: { xs: 'none', sm: 'block' } }}
                     >
-                        Todo List
+                        <NavLink to="/">
+                            <Link color="inherit">Todo List</Link>
+                        </NavLink>
                     </Typography>
 
                     <Box sx={{ flexGrow: 1 }} />
