@@ -21,9 +21,11 @@ function Todolist(props) {
         todos,
         handleIsUpdate,
         handleDelete,
+        isRefreshSelection,
     } = props
 
-    const [isSelectedItems, setIsSelectedItems] = useState(false);
+    const [selectedItems, setSelectedItems] = useState([]);
+
 
     const formik = useFormik({
         initialValues: {
@@ -32,25 +34,16 @@ function Todolist(props) {
     })
 
     useEffect(() => {
-        formik.resetForm()
-        console.log('Hola mundo')
-    }, [])
-
-
-    useEffect(() => {
-        if (formik.values.itemsSelected.length) {
-            setIsSelectedItems(true)
-        } else {
-            setIsSelectedItems(false)
+        if (isRefreshSelection) {
+            formik.setFieldValue('itemsSelected', [])
+            //console.log('Se ha mandado a refrescar');
         }
-
-    }, [formik.values.itemsSelected])
+    }, [isRefreshSelection])
 
 
     return (
         <>
             <TodolistChangeState
-                isSelectedItems={isSelectedItems}
                 handleDelete={handleDelete}
                 items={formik.values.itemsSelected}
             />

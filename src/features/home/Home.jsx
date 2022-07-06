@@ -37,10 +37,12 @@ function Home() {
     const [isUpdate, setIsUpdate] = useState(false);
     const [itemUpdate, setItemUpdate] = useState(null);
     const [itemValues, setItemValues] = useState([]);
+    const [isRefreshSelection, setIsRefreshSelection] = useState(false);
 
     const loadInitData = async () => {
         const todoList = await fetchTodos()
         setTodos(todoList)
+        setIsRefreshSelection(false)
     }
 
     useEffect(() => {
@@ -66,6 +68,7 @@ function Home() {
             type: 'success',
             message: 'Se ha eliminado correctamente.'
         }));
+        setIsRefreshSelection(true);
         loadInitData()
     }
 
@@ -98,6 +101,7 @@ function Home() {
                                 handleIsUpdate={handleIsUpdate}
                                 handleDelete={handleDelete}
                                 itemUpdate={itemUpdate}
+                                isRefreshSelection={isRefreshSelection}
                             />
                         </Item>
                     </Grid>
