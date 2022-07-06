@@ -70,9 +70,10 @@ export const updateTodo = async (id, name, description) => {
     });
 }
 
-export const deleteTodo = async (id) => {
+export const deleteTodo = async (ids) => {
     const form = new FormData()
     form.append('device', 'react')
+    form.append('ids', ids);
     form.append('_method', 'DELETE')
 
     const data = await tokenUtils.getAuthenticationToken()
@@ -81,7 +82,7 @@ export const deleteTodo = async (id) => {
         token = data.split(':')[1]
     }
 
-    return await api.post(`todo/${id}`, form, {
+    return await api.post('todo/delete', form, {
         headers: {
             Authorization: `Bearer ${token}`
         }
