@@ -4,6 +4,7 @@ import TextField from '@mui/material/TextField'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import Button from '@mui/material/Button'
+import Typography from '@mui/material/Typography';
 
 import { useFormik, Formik } from 'formik';
 import { ThemeProvider } from '@emotion/react';
@@ -52,6 +53,26 @@ function TodolistForm(props) {
                 noValidate
                 autoComplete="off"
             >
+                <Typography
+                    variant="h6"
+                    noWrap
+                    component="div"
+                    color="inherit"
+                    sx={{ display: { xs: 'none', sm: 'block' } }}
+                >
+                    {
+                        (isUpdate) ? (
+                            <>
+                                Actualizar
+                            </>
+                        ) : (
+                            <>
+                                Crear
+                            </>
+                        )
+                    }
+                </Typography>
+
                 <Formik>
                     <TextField
                         size="small"
