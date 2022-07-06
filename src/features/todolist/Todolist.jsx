@@ -1,30 +1,25 @@
 import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Checkbox from '@mui/material/Checkbox';
-import Avatar from '@mui/material/Avatar';
 import PropTypes from 'prop-types'
+import Typography from '@mui/material/Typography';
 
 import { useFormik } from 'formik'
-import { notification } from '../notification/notificationSlice'
 import TodolistChangeState from './TodolistChangeState';
 
 
 function Todolist(props) {
-    const dispatch = useDispatch();
 
     const {
         todos,
         handleIsUpdate,
         handleDelete,
+        handleDo,
         isRefreshSelection,
     } = props
-
-    const [selectedItems, setSelectedItems] = useState([]);
 
 
     const formik = useFormik({
@@ -36,18 +31,41 @@ function Todolist(props) {
     useEffect(() => {
         if (isRefreshSelection) {
             formik.setFieldValue('itemsSelected', [])
+            formik.resetForm()
             //console.log('Se ha mandado a refrescar');
         }
     }, [isRefreshSelection])
 
-
     return (
         <>
+            <Typography
+                variant="h6"
+                noWrap
+                component="div"
+                color="inherit"
+                sx={{ display: { xs: 'none', sm: 'block' } }}
+            >
+                {
+                    (todos?.length) ? (
+                        <>
+                            Lista de tareas
+                        </>
+                    ) : (
+                        <>
+                            No hay tareas
+                        </>
+                    )
+
+                }
+            </Typography>
+
             <TodolistChangeState
                 handleDelete={handleDelete}
+                handleDo={handleDo}
                 items={formik.values.itemsSelected}
             />
-            <List dense sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+
+            <List dense sx={{ width: '100%', bgcolor: 'background.paper' }}>
 
                 {
                     todos?.map((todo, index) => (
@@ -60,21 +78,38 @@ function Todolist(props) {
                                     name="itemsSelected"
                                     edge="start"
                                     onClick={formik.handleChange}
+
                                 />
                             }
                         >
                             <ListItemButton>
                                 <ListItemText
-                                    id={todo.id.toString()}
-                                    primary={todo.name}
+                                    primary={
+                                        <Typography
+                                            type="body2"
+                                            style={
+                                                (todo.made_at !== null) ? (
+                                                    { textDecoration: 'line-through' }
+                                                ) : (
+                                                    { textDecoration: '' }
+                                                )
+
+                                            }
+
+                                        >
+                                            {todo.name}
+                                        </Typography>}
                                     value={todo.id}
                                     onClick={(e) => { handleIsUpdate(todo.id) }}
                                 />
+
                             </ListItemButton>
                         </ListItem>
                     ))
                 }
+
             </List >
+
         </>
     )
 }

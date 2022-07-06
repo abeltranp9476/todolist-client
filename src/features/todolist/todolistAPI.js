@@ -88,3 +88,22 @@ export const deleteTodo = async (ids) => {
         }
     });
 }
+
+export const doTodo = async (ids) => {
+    const form = new FormData()
+    form.append('device', 'react')
+    form.append('ids', ids);
+    form.append('_method', 'PUT')
+
+    const data = await tokenUtils.getAuthenticationToken()
+    let token = null
+    if (data) {
+        token = data.split(':')[1]
+    }
+
+    return await api.post('todo/do', form, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+}

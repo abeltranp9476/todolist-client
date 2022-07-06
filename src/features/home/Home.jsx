@@ -9,6 +9,7 @@ import {
     createTodo,
     updateTodo,
     deleteTodo,
+    doTodo,
 } from '../todolist/todolistAPI'
 
 import { styled } from '@mui/material/styles';
@@ -72,6 +73,16 @@ function Home() {
         loadInitData()
     }
 
+    const handleDo = async (items) => {
+        await doTodo(items)
+        dispatch(notification({
+            type: 'success',
+            message: 'Se ha cambiado el estado correctamente.'
+        }));
+        setIsRefreshSelection(true);
+        loadInitData()
+    }
+
     const handleClick = async (values) => {
         if (isUpdate) {
             await updateTodo(itemUpdate, values.name, values.description);
@@ -93,13 +104,14 @@ function Home() {
         <ThemeProvider theme={theme} >
             <Container component="main" maxWidth="lg">
                 <CssBaseline />
-                <Grid container spacing={2}>
+                <Grid container spacing={2} sx={{ m: 1 }}>
                     <Grid item xs={8}>
                         <Item>
                             <Todolist
                                 todos={todos?.data?.data}
                                 handleIsUpdate={handleIsUpdate}
                                 handleDelete={handleDelete}
+                                handleDo={handleDo}
                                 itemUpdate={itemUpdate}
                                 isRefreshSelection={isRefreshSelection}
                             />
