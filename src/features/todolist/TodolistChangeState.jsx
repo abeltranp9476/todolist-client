@@ -6,7 +6,6 @@ import { Delete } from '@mui/icons-material';
 
 function TodolistChangeState(props) {
     const {
-        isSelectedItems,
         handleDelete,
         items,
     } = props
@@ -14,7 +13,7 @@ function TodolistChangeState(props) {
     return (
         <>
             {
-                (isSelectedItems) ? (
+                (items.length) ? (
                     <>
                         <label htmlFor="icon-button-file">
                             <IconButton
