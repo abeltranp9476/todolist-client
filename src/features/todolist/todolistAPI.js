@@ -1,14 +1,14 @@
 import { api } from '../../utils/api';
 import { tokenUtils } from '../../utils/authentication';
 
-export const fetchTodos = async () => {
+export const fetchTodos = async ({ page, limit }) => {
     const data = await tokenUtils.getAuthenticationToken();
     let token = null;
     if (data) {
         token = data.split(':')[1];
     }
 
-    return await api.get('todo', {
+    return await api.get(`todo?page=${page + 1}&per_page=${limit}`, {
         headers: {
             Authorization: `Bearer ${token}`
         }

@@ -7,6 +7,8 @@ import Checkbox from '@mui/material/Checkbox';
 import PropTypes from 'prop-types'
 import Typography from '@mui/material/Typography';
 
+import { TablePagination } from '@mui/material';
+
 import { useFormik } from 'formik'
 import TodolistChangeState from './TodolistChangeState';
 
@@ -14,27 +16,42 @@ import TodolistChangeState from './TodolistChangeState';
 function Todolist(props) {
 
     const {
-        todos,
+        todosAll,
         handleIsUpdate,
         handleDelete,
         handleDo,
+        handlePageChange,
+        handleLimitChange,
         isRefreshSelection,
+        page,
+        limit,
     } = props
 
+    const [initialValues, setInitialValues] = useState({
+        itemsSelected: []
+    });
+
+    const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
 
     const formik = useFormik({
-        initialValues: {
-            itemsSelected: []
-        },
+        enableReinitialize: true,
+        initialValues: initialValues,
     })
 
     useEffect(() => {
         if (isRefreshSelection) {
             formik.setFieldValue('itemsSelected', [])
-            formik.resetForm()
-            //console.log('Se ha mandado a refrescar');
         }
     }, [isRefreshSelection])
+
+
+    useEffect(() => {
+        setSelectedCustomerIds(formik.values.itemsSelected);
+    }, [formik.values.itemsSelected])
+
+
+    const todos = todosAll?.data?.data
+
 
     return (
         <>
@@ -109,7 +126,15 @@ function Todolist(props) {
                 }
 
             </List >
-
+            <TablePagination
+                component="div"
+                count={todosAll?.data?.meta?.total}
+                onPageChange={handlePageChange}
+                onRowsPerPageChange={handleLimitChange}
+                page={page}
+                rowsPerPage={limit}
+                rowsPerPageOptions={[5, 10, 25]}
+            />
         </>
     )
 }

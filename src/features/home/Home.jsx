@@ -39,9 +39,22 @@ function Home() {
     const [itemUpdate, setItemUpdate] = useState(null);
     const [itemValues, setItemValues] = useState([]);
     const [isRefreshSelection, setIsRefreshSelection] = useState(false);
+    const [page, setPage] = useState(0);
+    const [limit, setLimit] = useState(10);
+
+    const handlePageChange = (event, page) => {
+        setPage(page)
+    }
+
+    const handleLimitChange = (event) => {
+        setLimit(event.target.value)
+    }
 
     const loadInitData = async () => {
-        const todoList = await fetchTodos()
+        const todoList = await fetchTodos({
+            page: page,
+            limit: limit,
+        })
         setTodos(todoList)
         setIsRefreshSelection(false)
     }
@@ -49,6 +62,10 @@ function Home() {
     useEffect(() => {
         loadInitData()
     }, [])
+
+    useEffect(() => {
+        loadInitData()
+    }, [page, limit])
 
     const handleIsUpdate = async (item) => {
         setIsUpdate(true)
@@ -104,16 +121,20 @@ function Home() {
         <ThemeProvider theme={theme} >
             <Container component="main" maxWidth="lg">
                 <CssBaseline />
-                <Grid container spacing={2} sx={{ m: 1 }}>
+                <Grid container spacing={2} sx={{ m: 1, bgcolor: 'background.paper' }}>
                     <Grid item xs={8}>
                         <Item>
                             <Todolist
-                                todos={todos?.data?.data}
+                                todosAll={todos}
                                 handleIsUpdate={handleIsUpdate}
                                 handleDelete={handleDelete}
                                 handleDo={handleDo}
+                                handlePageChange={handlePageChange}
+                                handleLimitChange={handleLimitChange}
                                 itemUpdate={itemUpdate}
                                 isRefreshSelection={isRefreshSelection}
+                                page={page}
+                                limit={limit}
                             />
                         </Item>
                     </Grid>

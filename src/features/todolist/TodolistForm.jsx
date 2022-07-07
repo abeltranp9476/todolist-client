@@ -73,18 +73,18 @@ function TodolistForm(props) {
                     }
                 </Typography>
 
-                <Formik>
-                    <TextField
-                        size="small"
-                        fullWidth
-                        id="name"
-                        name="name"
-                        label="Nombre"
-                        variant="standard"
-                        onChange={formik.handleChange}
-                        value={formik.values.name}
-                    />
-                </Formik>
+
+                <TextField
+                    size="small"
+                    fullWidth
+                    id="name"
+                    name="name"
+                    label="Nombre"
+                    variant="standard"
+                    onChange={formik.handleChange}
+                    value={formik.values.name}
+                />
+
 
             </Box>
 
@@ -132,7 +132,7 @@ function TodolistForm(props) {
                 {
                     (props.isUpdate) ? (
                         <Button
-                            variant="outlined"
+                            variant=""
                             onClick={handleResetThis}
                         >
                             Cancelar
