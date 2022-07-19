@@ -35,32 +35,48 @@ function Todolist(props) {
     const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
 
     const formik = useFormik({
-        enableReinitialize: true,
         initialValues: initialValues,
     })
 
-    const isChecked = (value) => {
-        return false
-    }
+    const handleSelectOne = (event, id) => {
+        const selectedIndex = selectedCustomerIds.indexOf(id);
+        let newSelectedCustomerIds = [];
 
+        if (selectedIndex === -1) {
+            newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds, id);
+        } else if (selectedIndex === 0) {
+            newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(1));
+        } else if (selectedIndex === selectedCustomerIds.length - 1) {
+            newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(0, -1));
+        } else if (selectedIndex > 0) {
+            newSelectedCustomerIds = newSelectedCustomerIds.concat(
+                selectedCustomerIds.slice(0, selectedIndex),
+                selectedCustomerIds.slice(selectedIndex + 1)
+            );
+        }
+
+        setSelectedCustomerIds(newSelectedCustomerIds);
+    };
+
+    const handleSelectAll = (event) => {
+        let newSelectedCustomerIds;
+
+        if (event.target.checked) {
+            newSelectedCustomerIds = customers.map((customer) => customer.id);
+        } else {
+            newSelectedCustomerIds = [];
+        }
+
+        setSelectedCustomerIds(newSelectedCustomerIds);
+    };
 
     useEffect(() => {
         if (isRefreshSelection) {
-            formik.setFieldValue('itemsSelected', [])
-            formik.resetForm({ 'itemsSelected': [] })
+            setSelectedCustomerIds([]);
         }
     }, [isRefreshSelection])
 
-
-    useEffect(() => {
-        setSelectedCustomerIds(formik.values.itemsSelected);
-    }, [formik.values.itemsSelected])
-
-
     const todos = todosAll?.data?.data
-
-
-
 
     return (
         <>
@@ -81,14 +97,13 @@ function Todolist(props) {
                             No hay tareas
                         </>
                     )
-
                 }
             </Typography>
 
             <TodolistChangeState
                 handleDelete={handleDelete}
                 handleDo={handleDo}
-                items={formik.values.itemsSelected}
+                items={selectedCustomerIds}
             />
 
             <List dense sx={{ width: '100%', bgcolor: 'background.paper' }}>
@@ -96,20 +111,16 @@ function Todolist(props) {
                 {
                     todos?.map((todo, index) => (
                         <ListItem
-                            key={todo.id.toString()}
                             secondaryAction={
-                                <Formik
-                                    initialValues={initialValues}
-                                >
-                                    <Form>
-                                        <Mycheckbox
-                                            id={todo.id}
-                                            value={todo.id}
-                                            name="itemsSelected"
-                                            edge="start"
-                                            onChange={formik.handleChange} />
-                                    </Form>
-                                </Formik>
+                                <Checkbox
+                                    key={todo.id}
+                                    value={todo.id}
+                                    name="itemsSelected"
+                                    edge="start"
+                                    checked={selectedCustomerIds.indexOf(todo.id) !== -1}
+                                    onChange={(event) => handleSelectOne(event, todo.id)}
+                                />
+
                             }
                         >
                             <ListItemButton>

@@ -32,6 +32,12 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const theme = createTheme();
 
+const darkTheme = createTheme({
+    palette: {
+        mode: 'dark',
+    },
+});
+
 function Home() {
     const dispatch = useDispatch();
     const [todos, setTodos] = useState([])
