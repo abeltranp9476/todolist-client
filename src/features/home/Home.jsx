@@ -2,6 +2,7 @@ import useEnhancedEffect from '@mui/utils/useEnhancedEffect';
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectLogin } from '../login/loginSlice';
+import { useNavigate } from 'react-router-dom';
 import Todolist from '../todolist/Todolist';
 import {
     fetchTodos,
@@ -11,6 +12,7 @@ import {
     deleteTodo,
     doTodo,
 } from '../todolist/todolistAPI'
+
 
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
@@ -40,6 +42,8 @@ const darkTheme = createTheme({
 
 function Home() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const session = useSelector(selectLogin);
     const [todos, setTodos] = useState([])
     const [isUpdate, setIsUpdate] = useState(false);
     const [itemUpdate, setItemUpdate] = useState(null);
@@ -72,6 +76,11 @@ function Home() {
     useEffect(() => {
         loadInitData()
     }, [page, limit])
+
+    useEffect(() => {
+        if (!session.isAutentifiqued)
+            navigate('/login');
+    }, [session.isAutentifiqued])
 
     const handleIsUpdate = async (item) => {
         setIsUpdate(true)

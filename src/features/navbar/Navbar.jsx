@@ -21,6 +21,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { selectLogin, logout } from '../login/loginSlice';
 import { useNavigate, NavLink } from 'react-router-dom';
 
+import { tokenUtils } from '../../utils/authentication';
+
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
@@ -94,6 +96,16 @@ const Navbar = () => {
         handleMenuClose();
         dispatch(logout());
         navigate('/login');
+    }
+
+    const goUrl = (url) => {
+        const userId = tokenUtils.getUserId();
+        dispatch(getUser(userId));
+        if (!userId) {
+            navigate(url);
+        } else {
+            navigate('/login');
+        }
     }
 
     const handleMiCuenta = () => {
@@ -176,9 +188,9 @@ const Navbar = () => {
                         color="inherit"
                         sx={{ display: { xs: 'none', sm: 'block' } }}
                     >
-                        <NavLink to="/">
-                            <Link color="inherit">Todo List</Link>
-                        </NavLink>
+                        <NavLink to="/">Todo List</NavLink>
+
+
                     </Typography>
 
                     <Box sx={{ flexGrow: 1 }} />
