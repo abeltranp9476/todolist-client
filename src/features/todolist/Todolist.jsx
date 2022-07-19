@@ -9,10 +9,7 @@ import { Checkbox } from '@mui/material';
 import { TablePagination } from '@mui/material';
 import Chip from '@mui/material/Chip';
 import * as moment from 'moment'
-import { useFormik, Formik, Form, Field } from 'formik'
 import TodolistChangeState from './TodolistChangeState';
-import Mycheckbox from '../Mycheckbox/Mycheckbox';
-
 
 function Todolist(props) {
 
@@ -34,9 +31,6 @@ function Todolist(props) {
 
     const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
 
-    const formik = useFormik({
-        initialValues: initialValues,
-    })
 
     const handleSelectOne = (event, id) => {
         const selectedIndex = selectedCustomerIds.indexOf(id);
