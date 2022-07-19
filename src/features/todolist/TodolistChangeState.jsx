@@ -17,9 +17,7 @@ function TodolistChangeState(props) {
             {
                 (items.length) ? (
                     <>
-
                         <Chip label={items.length} size="small" variant="outlined" />
-
                         <label htmlFor="icon-button-file">
                             <IconButton
                                 color="primary"
@@ -41,7 +39,6 @@ function TodolistChangeState(props) {
                                 <CheckOutlined />
                             </IconButton>
                         </label>
-
                     </>
                 ) : (
                     <>

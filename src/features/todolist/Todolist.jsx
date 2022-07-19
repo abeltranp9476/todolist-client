@@ -3,14 +3,15 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import Checkbox from '@mui/material/Checkbox';
 import PropTypes from 'prop-types'
 import Typography from '@mui/material/Typography';
-
+import { Checkbox } from '@mui/material';
 import { TablePagination } from '@mui/material';
-
-import { useFormik } from 'formik'
+import Chip from '@mui/material/Chip';
+import * as moment from 'moment'
+import { useFormik, Formik, Form, Field } from 'formik'
 import TodolistChangeState from './TodolistChangeState';
+import Mycheckbox from '../Mycheckbox/Mycheckbox';
 
 
 function Todolist(props) {
@@ -38,9 +39,15 @@ function Todolist(props) {
         initialValues: initialValues,
     })
 
+    const isChecked = (value) => {
+        return false
+    }
+
+
     useEffect(() => {
         if (isRefreshSelection) {
             formik.setFieldValue('itemsSelected', [])
+            formik.resetForm({ 'itemsSelected': [] })
         }
     }, [isRefreshSelection])
 
@@ -51,6 +58,8 @@ function Todolist(props) {
 
 
     const todos = todosAll?.data?.data
+
+
 
 
     return (
@@ -89,39 +98,59 @@ function Todolist(props) {
                         <ListItem
                             key={todo.id.toString()}
                             secondaryAction={
-                                <Checkbox
-                                    id={todo.id}
-                                    value={todo.id}
-                                    name="itemsSelected"
-                                    edge="start"
-                                    onClick={formik.handleChange}
-
-                                />
+                                <Formik
+                                    initialValues={initialValues}
+                                >
+                                    <Form>
+                                        <Mycheckbox
+                                            id={todo.id}
+                                            value={todo.id}
+                                            name="itemsSelected"
+                                            edge="start"
+                                            onChange={formik.handleChange} />
+                                    </Form>
+                                </Formik>
                             }
                         >
                             <ListItemButton>
                                 <ListItemText
                                     primary={
-                                        <Typography
-                                            type="body2"
-                                            style={
-                                                (todo.made_at !== null) ? (
-                                                    { textDecoration: 'line-through' }
+                                        <>
+                                            {
+                                                (todo.made_at) ? (
+                                                    <Chip
+                                                        label={moment(todo.made_at, "YYYYMMDD").fromNow()}
+                                                        size="small"
+                                                        variant="outlined"
+                                                        color="success"
+                                                    />
                                                 ) : (
-                                                    { textDecoration: '' }
+                                                    <>
+                                                    </>
                                                 )
 
                                             }
+                                            <Typography
+                                                type="body2"
+                                                style={
+                                                    (todo.made_at !== null) ? (
+                                                        { textDecoration: 'line-through' }
+                                                    ) : (
+                                                        { textDecoration: '' }
+                                                    )
+                                                }
 
-                                        >
-                                            {todo.name}
-                                        </Typography>}
+                                            >
+                                                {todo.name}
+                                            </Typography>
+                                        </>
+                                    }
                                     value={todo.id}
                                     onClick={(e) => { handleIsUpdate(todo.id) }}
                                 />
 
                             </ListItemButton>
-                        </ListItem>
+                        </ListItem >
                     ))
                 }
 
@@ -136,6 +165,7 @@ function Todolist(props) {
                 rowsPerPageOptions={[5, 10, 25]}
             />
         </>
+
     )
 }
 
