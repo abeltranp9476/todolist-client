@@ -25,10 +25,6 @@ function Todolist(props) {
         limit,
     } = props
 
-    const [initialValues, setInitialValues] = useState({
-        itemsSelected: []
-    });
-
     const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
 
 
@@ -105,9 +101,9 @@ function Todolist(props) {
                 {
                     todos?.map((todo, index) => (
                         <ListItem
+                            key={todo.id}
                             secondaryAction={
                                 <Checkbox
-                                    key={todo.id}
                                     value={todo.id}
                                     name="itemsSelected"
                                     edge="start"
@@ -162,7 +158,7 @@ function Todolist(props) {
             </List >
             <TablePagination
                 component="div"
-                count={todosAll?.data?.meta?.total}
+                count={todosAll?.data?.meta?.total || 0}
                 onPageChange={handlePageChange}
                 onRowsPerPageChange={handleLimitChange}
                 page={page}
