@@ -82,7 +82,7 @@ function TodolistForm(props) {
                     label="Nombre"
                     variant="standard"
                     onChange={formik.handleChange}
-                    value={formik.values.name}
+                    value={formik.values.name || ""}
                 />
 
 
@@ -103,10 +103,10 @@ function TodolistForm(props) {
                     name="description"
                     label="Descripcion"
                     variant="standard"
-                    multiline="10"
+                    multiline={false}
                     maxRows="4"
                     onChange={formik.handleChange}
-                    value={formik.values.description}
+                    value={formik.values.description || ""}
                 />
             </Box>
 
