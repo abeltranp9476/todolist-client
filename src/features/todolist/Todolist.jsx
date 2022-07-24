@@ -6,6 +6,8 @@ import ListItemText from '@mui/material/ListItemText';
 import PropTypes from 'prop-types'
 import Typography from '@mui/material/Typography';
 import { Checkbox } from '@mui/material';
+import Skeleton from '@mui/material/Skeleton';
+import Stack from '@mui/material/Stack';
 import { TablePagination } from '@mui/material';
 import Chip from '@mui/material/Chip';
 import * as moment from 'moment'
@@ -23,10 +25,10 @@ function Todolist(props) {
         isRefreshSelection,
         page,
         limit,
+        isLoading,
     } = props
 
     const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
-
 
     const handleSelectOne = (event, id) => {
         const selectedIndex = selectedCustomerIds.indexOf(id);
@@ -66,107 +68,125 @@ function Todolist(props) {
         }
     }, [isRefreshSelection])
 
-    const todos = todosAll?.data?.data
+
+    const todos = todosAll?.data?.data;
 
     return (
         <>
-            <Typography
-                variant="h6"
-                noWrap
-                component="div"
-                color="inherit"
-                sx={{ display: { xs: 'none', sm: 'block' } }}
-            >
-                {
-                    (todos?.length) ? (
-                        <>
-                            Lista de tareas
-                        </>
-                    ) : (
-                        <>
-                            No hay tareas
-                        </>
-                    )
-                }
-            </Typography>
-
-            <TodolistChangeState
-                handleDelete={handleDelete}
-                handleDo={handleDo}
-                items={selectedCustomerIds}
-            />
-
-            <List dense sx={{ width: '100%', bgcolor: 'background.paper' }}>
-
-                {
-                    todos?.map((todo, index) => (
-                        <ListItem
-                            key={todo.id}
-                            secondaryAction={
-                                <Checkbox
-                                    value={todo.id}
-                                    name="itemsSelected"
-                                    edge="start"
-                                    checked={selectedCustomerIds.indexOf(todo.id) !== -1}
-                                    onChange={(event) => handleSelectOne(event, todo.id)}
-                                />
-
-                            }
+            {
+                (isLoading) ? (
+                    <>
+                        <Stack spacing={1}>
+                            <Skeleton animation="wave" variant="text" height={40} />
+                            <Skeleton animation="wave" variant="rectangular" height={60} width="75%" />
+                            <Skeleton animation="wave" variant="circular" width={80} height={40} />
+                            <Skeleton animation="wave" variant="rectangular" height={30} />
+                            <Skeleton animation="wave" variant="rectangular" height={60} width="41%" />
+                            <Skeleton animation="wave" variant="circular" width={80} height={40} />
+                            <Skeleton animation="wave" variant="rectangular" height={30} />
+                        </Stack>
+                    </>
+                ) : (
+                    <>
+                        <Typography
+                            variant="h6"
+                            noWrap
+                            component="div"
+                            color="inherit"
+                            sx={{ display: { xs: 'none', sm: 'block' } }}
                         >
-                            <ListItemButton>
-                                <ListItemText
-                                    primary={
-                                        <>
-                                            {
-                                                (todo.made_at) ? (
-                                                    <Chip
-                                                        label={moment(todo.made_at, "YYYYMMDD").fromNow()}
-                                                        size="small"
-                                                        variant="outlined"
-                                                        color="success"
-                                                    />
-                                                ) : (
+                            {
+                                (todos?.length) ? (
+                                    <>
+                                        Lista de tareas
+                                    </>
+                                ) : (
+                                    <>
+                                        No hay tareas
+                                    </>
+                                )
+                            }
+                        </Typography>
+
+                        <TodolistChangeState
+                            handleDelete={handleDelete}
+                            handleDo={handleDo}
+                            items={selectedCustomerIds}
+                        />
+
+                        <List dense sx={{ width: '100%', bgcolor: 'background.paper' }}>
+
+                            {
+                                todos?.map((todo, index) => (
+                                    <ListItem
+                                        key={todo.id}
+                                        secondaryAction={
+                                            <Checkbox
+                                                value={todo.id}
+                                                name="itemsSelected"
+                                                edge="start"
+                                                checked={selectedCustomerIds.indexOf(todo.id) !== -1}
+                                                onChange={(event) => handleSelectOne(event, todo.id)}
+                                            />
+
+                                        }
+                                    >
+                                        <ListItemButton>
+                                            <ListItemText
+                                                primary={
                                                     <>
+                                                        {
+                                                            (todo.made_at) ? (
+                                                                <Chip
+                                                                    label={moment(todo.made_at, "YYYYMMDD").fromNow()}
+                                                                    size="small"
+                                                                    variant="outlined"
+                                                                    color="success"
+                                                                />
+                                                            ) : (
+                                                                <>
+                                                                </>
+                                                            )
+
+                                                        }
+                                                        <Typography
+                                                            type="body2"
+                                                            style={
+                                                                (todo.made_at !== null) ? (
+                                                                    { textDecoration: 'line-through' }
+                                                                ) : (
+                                                                    { textDecoration: '' }
+                                                                )
+                                                            }
+
+                                                        >
+                                                            {todo.name}
+                                                        </Typography>
                                                     </>
-                                                )
-
-                                            }
-                                            <Typography
-                                                type="body2"
-                                                style={
-                                                    (todo.made_at !== null) ? (
-                                                        { textDecoration: 'line-through' }
-                                                    ) : (
-                                                        { textDecoration: '' }
-                                                    )
                                                 }
+                                                value={todo.id}
+                                                onClick={(e) => { handleIsUpdate(todo.id) }}
+                                            />
 
-                                            >
-                                                {todo.name}
-                                            </Typography>
-                                        </>
-                                    }
-                                    value={todo.id}
-                                    onClick={(e) => { handleIsUpdate(todo.id) }}
-                                />
+                                        </ListItemButton>
+                                    </ListItem >
+                                ))
+                            }
 
-                            </ListItemButton>
-                        </ListItem >
-                    ))
-                }
-
-            </List >
-            <TablePagination
-                component="div"
-                count={todosAll?.data?.meta?.total || 0}
-                onPageChange={handlePageChange}
-                onRowsPerPageChange={handleLimitChange}
-                page={page}
-                rowsPerPage={limit}
-                rowsPerPageOptions={[5, 10, 25]}
-            />
+                        </List >
+                        <TablePagination
+                            component="div"
+                            count={todosAll?.data?.meta?.total || 0}
+                            onPageChange={handlePageChange}
+                            onRowsPerPageChange={handleLimitChange}
+                            page={page}
+                            rowsPerPage={limit}
+                            rowsPerPageOptions={[5, 10, 25]}
+                        />
+                    </>
+                )
+            }
         </>
-
     )
 }
 

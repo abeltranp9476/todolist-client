@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 import { selectNotification } from './notificationSlice';
@@ -9,8 +9,10 @@ function Notification() {
     const type = notifications.notify.type;
     const message = notifications.notify.message;
 
+
     useEffect(() => {
         if (message) {
+
             if (type === 'error') {
                 toast.error(message, {
                     position: "top-right",
@@ -24,7 +26,7 @@ function Notification() {
             }
 
             if (type === 'success') {
-                toast.success(message, {
+                toast(message, {
                     position: "top-right",
                     autoClose: 5000,
                     hideProgressBar: false,
@@ -36,7 +38,6 @@ function Notification() {
             }
         }
     }, [notifications])
-
 
     return null
 }

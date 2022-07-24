@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectLogin } from '../login/loginSlice';
 import { useNavigate } from 'react-router-dom';
+import { tokenUtils } from '../../utils/authentication.js';
 import Todolist from '../todolist/Todolist';
 import {
     fetchTodos,
@@ -51,6 +52,7 @@ function Home() {
     const [isRefreshSelection, setIsRefreshSelection] = useState(false);
     const [page, setPage] = useState(0);
     const [limit, setLimit] = useState(10);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handlePageChange = (event, page) => {
         setPage(page)
@@ -61,26 +63,20 @@ function Home() {
     }
 
     const loadInitData = async () => {
+        setIsLoading(true);
         const todoList = await fetchTodos({
             page: page,
             limit: limit,
         })
         setTodos(todoList)
-        setIsRefreshSelection(false)
+        setIsRefreshSelection(false);
+        setIsLoading(false);
     }
 
     useEffect(() => {
-        loadInitData()
-    }, [])
-
-    useEffect(() => {
-        loadInitData()
+        if (!tokenUtils.getUserId()) navigate('/login');
+        loadInitData();
     }, [page, limit])
-
-    useEffect(() => {
-        if (!session.isAutentifiqued)
-            navigate('/login');
-    }, [session.isAutentifiqued])
 
     const handleIsUpdate = async (item) => {
         setIsUpdate(true)
@@ -147,7 +143,8 @@ function Home() {
                                 handlePageChange={handlePageChange}
                                 handleLimitChange={handleLimitChange}
                                 itemUpdate={itemUpdate}
-                                isRefreshSelection={isRefreshSelection}
+                                isRefreshSelection={isRefreshSelection || false}
+                                isLoading={isLoading}
                                 page={page}
                                 limit={limit}
                             />
@@ -156,7 +153,7 @@ function Home() {
                     <Grid item xs={4}>
                         <Item>
                             <TodolistForm
-                                isUpdate={isUpdate}
+                                isUpdate={isUpdate || false}
                                 handleReset={handleReset}
                                 handleClick={handleClick}
                                 itemValues={itemValues}

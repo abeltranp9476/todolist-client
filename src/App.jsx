@@ -9,10 +9,8 @@ import { getUser } from './features/login/loginSlice';
 import Home from './features/home/Home';
 import Register from './features/register/Register';
 import { selectLogin } from './features/login/loginSlice';
-import Notification from './features/notification/Notification';
 import Changepassword from './features/changepassword/Changepassword';
-
-
+import Notification from './features/notification/Notification';
 function App() {
 
   const dispatch = useDispatch();
@@ -29,8 +27,8 @@ function App() {
 
   return (
     <>
-      <Navbar />
       <Notification />
+      <Navbar />
       <Routes>
         <Route path="*" element={<div>404</div>} />
         <Route path="/" element={<Home />} />

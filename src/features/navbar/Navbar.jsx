@@ -188,7 +188,11 @@ const Navbar = () => {
                         color="inherit"
                         sx={{ display: { xs: 'none', sm: 'block' } }}
                     >
-                        <NavLink to="/">Todo List</NavLink>
+                        <NavLink to="/" underline="none">
+                            <Link color="white" underline="none" variant="inherit">
+                                Todo List
+                            </Link>
+                        </NavLink>
 
 
                     </Typography>

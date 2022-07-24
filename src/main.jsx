@@ -1,6 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
 import { BrowserRouter } from "react-router-dom";
@@ -10,6 +8,7 @@ import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Notification from './features/notification/Notification';
 
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
@@ -18,6 +17,7 @@ root.render(
     <React.StrictMode>
         <Provider store={store}>
             <ToastContainer position="top-right"
+                containerId="asdasd"
                 autoClose={5000}
                 hideProgressBar={false}
                 newestOnTop={false}
