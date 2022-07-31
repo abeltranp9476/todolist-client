@@ -26,6 +26,7 @@ function Todolist(props) {
         page,
         limit,
         isLoading,
+        matches,
     } = props
 
     const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
@@ -93,7 +94,7 @@ function Todolist(props) {
                             noWrap
                             component="div"
                             color="inherit"
-                            sx={{ display: { xs: 'none', sm: 'block' } }}
+                            sx={{ display: { xs: 'block', sm: 'block' } }}
                         >
                             {
                                 (todos?.length) ? (

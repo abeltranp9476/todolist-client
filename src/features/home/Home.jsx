@@ -22,6 +22,10 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
+import MyModal from '../modal/MyModal';
+
 import TodolistForm from '../todolist/TodolistForm';
 import { notification } from '../notification/notificationSlice'
 
@@ -53,6 +57,9 @@ function Home() {
     const [page, setPage] = useState(0);
     const [limit, setLimit] = useState(10);
     const [isLoading, setIsLoading] = useState(false);
+
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.down('sm'));
 
     const handlePageChange = (event, page) => {
         setPage(page)
@@ -132,8 +139,8 @@ function Home() {
         <ThemeProvider theme={theme} >
             <Container component="main" maxWidth="lg">
                 <CssBaseline />
-                <Grid container spacing={2} sx={{ m: 1, bgcolor: 'background.paper' }}>
-                    <Grid item xs={8}>
+                <Grid container spacing={2} sx={{ mr: 1, mt: 1, bgcolor: 'background.paper' }}>
+                    <Grid item sm={(matches) ? 12 : 8}>
                         <Item>
                             <Todolist
                                 todosAll={todos}
@@ -147,22 +154,33 @@ function Home() {
                                 isLoading={isLoading}
                                 page={page}
                                 limit={limit}
+                                matches={matches}
                             />
                         </Item>
                     </Grid>
-                    <Grid item xs={4}>
-                        <Item>
-                            <TodolistForm
-                                isUpdate={isUpdate || false}
-                                handleReset={handleReset}
-                                handleClick={handleClick}
-                                itemValues={itemValues}
-                            />
-                        </Item>
-                    </Grid>
-                </Grid>
-            </Container>
-        </ThemeProvider>
+                    {
+                        (matches) ? (
+                            <>
+                            </>
+                        ) : (
+                            <>
+                                <Grid item xs={4}>
+                                    <Item>
+                                        <TodolistForm
+                                            isUpdate={isUpdate || false}
+                                            handleReset={handleReset}
+                                            handleClick={handleClick}
+                                            itemValues={itemValues}
+                                        />
+                                    </Item>
+                                </Grid>
+                            </>
+                        )
+                    }
+
+                </Grid >
+            </Container >
+        </ThemeProvider >
     )
 }
 

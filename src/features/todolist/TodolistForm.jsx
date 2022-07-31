@@ -10,6 +10,7 @@ import { useFormik, Formik } from 'formik';
 import { ThemeProvider } from '@emotion/react';
 import { toast } from 'react-toastify';
 
+
 function TodolistForm(props) {
 
     const {
@@ -143,7 +144,6 @@ function TodolistForm(props) {
                         </>
                     )
                 }
-
             </Stack>
         </>
     )
