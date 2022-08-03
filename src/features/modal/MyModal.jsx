@@ -1,60 +1,39 @@
-import React from 'react'
+import { React, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 function MyModal(props) {
 
     const {
-        titleButton,
+        openModal,
         titleDialog,
-        textDialog,
-        valueAction,
+        cancelClick,
+        children,
     } = props;
 
-    const [open, setOpen] = React.useState(false);
+    const theme = useTheme();
+    const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
+    const handleActionClose = () => {
+        cancelClick();
+    }
 
     return (
-        <>
-            <Button variant="outlined" onClick={handleClickOpen}>
-                {titleButton}
-            </Button>
-            <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>{}</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        To subscribe to this website, please enter your email address here. We
-                        will send updates occasionally.
-                    </DialogContentText>
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="name"
-                        label="Email Address"
-                        type="email"
-                        fullWidth
-                        variant="standard"
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleClose}>Subscribe</Button>
-                </DialogActions>
-            </Dialog>
-        </>
+        <Dialog open={openModal} onClose={handleActionClose} fullScreen={fullScreen}>
+            <DialogTitle>{titleDialog}</DialogTitle>
+            <DialogContent>
+                {children}
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={handleActionClose}>Cerrar</Button>
+            </DialogActions>
+        </Dialog>
     )
 }
 

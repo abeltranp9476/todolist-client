@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectLogin } from '../login/loginSlice';
 import { useNavigate } from 'react-router-dom';
+import Button from '@mui/material/Button'
 import { tokenUtils } from '../../utils/authentication.js';
 import Todolist from '../todolist/Todolist';
 import {
@@ -12,8 +13,7 @@ import {
     updateTodo,
     deleteTodo,
     doTodo,
-} from '../todolist/todolistAPI'
-
+} from '../todolist/todolistAPI';
 
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
@@ -45,10 +45,11 @@ const darkTheme = createTheme({
     },
 });
 
+
 function Home() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const session = useSelector(selectLogin);
+
     const [todos, setTodos] = useState([])
     const [isUpdate, setIsUpdate] = useState(false);
     const [itemUpdate, setItemUpdate] = useState(null);
@@ -57,6 +58,7 @@ function Home() {
     const [page, setPage] = useState(0);
     const [limit, setLimit] = useState(10);
     const [isLoading, setIsLoading] = useState(false);
+    const [openModal, setOpenModal] = useState(false);
 
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down('sm'));
@@ -88,6 +90,7 @@ function Home() {
     const handleIsUpdate = async (item) => {
         setIsUpdate(true)
         setItemUpdate(item)
+        setOpenModal(true);
         const response = await fetchTodo(item)
         setItemValues(response.data.data)
     }
@@ -135,12 +138,44 @@ function Home() {
         loadInitData()
     }
 
+    const handleOpenModal = () => {
+        setOpenModal(true);
+    }
+
+    const handleCloseModal = () => {
+        setOpenModal(false);
+    }
+
     return (
         <ThemeProvider theme={theme} >
             <Container component="main" maxWidth="lg">
                 <CssBaseline />
                 <Grid container spacing={2} sx={{ mr: 1, mt: 1, bgcolor: 'background.paper' }}>
-                    <Grid item sm={(matches) ? 12 : 8}>
+                    {
+                        matches && (
+                            <Grid item xs={12}>
+                                <Button variant="outlined" onClick={handleOpenModal}>
+                                    Nuevo
+                                </Button>
+                                <MyModal
+                                    openModal={openModal}
+                                    titleDialog={isUpdate ? 'Actualizar tarea' : 'Nueva tarea'}
+                                    cancelClick={handleCloseModal}
+                                >
+                                    <TodolistForm
+                                        isUpdate={isUpdate || false}
+                                        handleReset={handleReset}
+                                        handleClick={handleClick}
+                                        handleCloseModal={handleCloseModal}
+                                        itemValues={itemValues}
+                                    />
+                                </MyModal>
+                            </Grid>
+                        )
+
+                    }
+
+                    <Grid item sm={matches ? 12 : 8}>
                         <Item>
                             <Todolist
                                 todosAll={todos}
@@ -159,22 +194,17 @@ function Home() {
                         </Item>
                     </Grid>
                     {
-                        (matches) ? (
-                            <>
-                            </>
-                        ) : (
-                            <>
-                                <Grid item xs={4}>
-                                    <Item>
-                                        <TodolistForm
-                                            isUpdate={isUpdate || false}
-                                            handleReset={handleReset}
-                                            handleClick={handleClick}
-                                            itemValues={itemValues}
-                                        />
-                                    </Item>
-                                </Grid>
-                            </>
+                        !matches && (
+                            <Grid item xs={4}>
+                                <Item>
+                                    <TodolistForm
+                                        isUpdate={isUpdate || false}
+                                        handleReset={handleReset}
+                                        handleClick={handleClick}
+                                        itemValues={itemValues}
+                                    />
+                                </Item>
+                            </Grid>
                         )
                     }
 

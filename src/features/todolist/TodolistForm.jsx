@@ -10,13 +10,13 @@ import { useFormik, Formik } from 'formik';
 import { ThemeProvider } from '@emotion/react';
 import { toast } from 'react-toastify';
 
-
 function TodolistForm(props) {
 
     const {
         isUpdate,
         handleReset,
         handleClick,
+        handleCloseModal,
         itemValues,
     } = props
 
@@ -31,6 +31,7 @@ function TodolistForm(props) {
         handleClick(formik.values);
         handleReset();
         formik.resetForm();
+        handleCloseModal();
     }
 
     const handleResetThis = () => {
@@ -38,19 +39,17 @@ function TodolistForm(props) {
         formik.resetForm();
     }
 
-
     useEffect(() => {
         formik.setFieldValue('name', itemValues.name)
         formik.setFieldValue('description', itemValues.description)
     }, [itemValues])
-
 
     return (
         <>
             <Box
                 component="form"
                 sx={{
-                    '& .MuiTextField-root': { mb: 1, width: '100%' },
+                    '& .MuiTextField-root': { mt: 1, mb: 1, width: '100%' },
                 }}
                 noValidate
                 autoComplete="off"
@@ -145,6 +144,7 @@ function TodolistForm(props) {
                     )
                 }
             </Stack>
+
         </>
     )
 }

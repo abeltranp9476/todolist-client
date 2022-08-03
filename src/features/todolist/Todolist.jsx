@@ -26,7 +26,6 @@ function Todolist(props) {
         page,
         limit,
         isLoading,
-        matches,
     } = props
 
     const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
